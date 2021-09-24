@@ -63,3 +63,59 @@ const galleryItems = [
     description: 'Lighthouse Coast Sea',
   },
 ];
+
+
+const galleryList = document.querySelector('.js-gallery');
+const openModal = document.querySelector('.js-lightbox');
+const closeModalBackdrop = document.querySelector('.lightbox__overlay');
+const closeButtonModal = document.querySelector('[data-action="close-lightbox"]');
+const imageRef = document.querySelector('.lightbox__image');
+
+
+const cardsGallery = createGallery(galleryItems);
+
+galleryList.insertAdjacentHTML('beforeend', cardsGallery);
+galleryList.addEventListener('click', onGalleryListClick);
+
+
+// openModal.addEventListener('click', onModalOpen);
+
+// function onModalOpen() {
+//   modalLightBox.classList.add('is-open');
+// }
+
+function createGallery(images) {
+  return galleryItems
+    .map(({ preview, original, description }) => {
+      return `
+    <li class="gallery__item">
+      <a
+        class="gallery__link"
+        href=${preview}
+        onclick="event.preventDefault()"
+      ><img
+          class="gallery__image"
+          src=${preview}
+          data-source=${original}
+          alt=${description}/>
+      </a>
+    </li>`;
+  }).join(''); 
+}
+
+function onGalleryListClick(evt) {
+  const isGalleryLink = evt.target.classList.contains('gallery__link');
+  if (!isGalleryLink) {
+    return;
+  };
+
+  openModal.classList.add('is-open');
+  
+}
+
+
+
+
+
+
+
