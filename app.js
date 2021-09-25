@@ -76,13 +76,10 @@ const cardsGallery = createGallery(galleryItems);
 
 galleryList.insertAdjacentHTML('beforeend', cardsGallery);
 galleryList.addEventListener('click', onGalleryListClick);
+closeButtonModal.addEventListener('click', onCloseModal);
+closeModalBackdrop.addEventListener('click', onBackdropClick);
 
 
-// openModal.addEventListener('click', onModalOpen);
-
-// function onModalOpen() {
-//   modalLightBox.classList.add('is-open');
-// }
 
 function createGallery(images) {
   return galleryItems
@@ -104,18 +101,35 @@ function createGallery(images) {
 }
 
 function onGalleryListClick(evt) {
-  const isGalleryLink = evt.target.classList.contains('gallery__link');
+  window.addEventListener('keydown', onEscKeyPress);
+  const isGalleryLink = evt.target.classList.contains('gallery__image');
   if (!isGalleryLink) {
     return;
   };
-
-  openModal.classList.add('is-open');
   
+  if (evt.target.localName === 'img') {
+    imageRef.src = evt.target.dataset.source;
+    imageRef.alt = evt.target.alt
+    openModal.classList.add('is-open');
+  }
 }
 
+function onCloseModal() {
+  window.removeEventListener('keydown', onEscKeyPress);
+  openModal.classList.remove('is-open');
+  imageRef.src = '';
+}
 
+function onBackdropClick(event) {
+  if (event.currentTarget === event.target) {
+    onCloseModal();
+  }
+}
 
-
-
+function onEscKeyPress(event) {
+  if (event.code === 'Escape') {
+    onCloseModal();
+  }
+}
 
 
